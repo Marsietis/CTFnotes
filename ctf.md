@@ -2,6 +2,16 @@
 
 ## Linux basics
 
+exiftool filename | find exif data
+xdg-open filename| open file
+xdg-open . | open current folder in file explorer
+eog filename| open file (gnome)
+
+echo 'Secret message.' > secret.txt | write message to file
+
+steghide embed -ef secret.txt -cf DSCN0042.jpg | hide message in image
+steghide extract -sf DSCN0042.jpg -xf secret_extract.txt | extract message
+
 cd - | move to previous dir
 ls -la | detailed info
 
@@ -91,3 +101,13 @@ grep -i -R 'Directory' /etc/ | serach whole dir
 
 ### wget
 wget https://filesamples.com/samples/document/txt/sample1.txt -O new_name.txt | get specified file (-O to change save file name)
+
+## Base64
+
+echo -n 'Text that will be base64 encoded' | base64 | encode to base64
+echo -n 'Text that will be base64 encoded' | base64 | base64  | multiple times
+
+echo -n 'VGV4dCB0aGF0IHdpbGwgYmUgYmFzZTY0IGVuY29kZWQ=' | base64 --decode | decode from base64
+echo -n 'VkdWNGRDQjBhR0YwSUhkcGJHd2dZbVVnWW1GelpUWTBJR1Z1WTI5a1pXUT0K' | base64 -d | base64 -d | can be shortened to -d
+echo -n 'VkdWNGRDQjBhR0YwSUhkcGJHd2dZbVVnWW1GelpUWTBJR1Z1WTI5a1pXUT0K' | base64 --decode | base64 --decode
+
