@@ -7,6 +7,8 @@ xdg-open filename| open file
 xdg-open . | open current folder in file explorer
 eog filename| open file (gnome)
 
+echo -n 0x39 | xxd -r -p | outptu to ascii
+
 echo 'Secret message.' > secret.txt | write message to file
 
 steghide embed -ef secret.txt -cf DSCN0042.jpg | hide message in image
