@@ -11,6 +11,9 @@ echo -n 0x39 | xxd -r -p | outptu to ascii
 
 echo 'Secret message.' > secret.txt | write message to file
 
+dirb <target-website> /path/to/wordlist.txt | finding files in a website
+
+
 steghide embed -ef secret.txt -cf DSCN0042.jpg | hide message in image
 steghide extract -sf DSCN0042.jpg -xf secret_extract.txt | extract message
 
