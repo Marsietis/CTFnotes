@@ -17,6 +17,12 @@
 - Hide a message in an image: `steghide embed -ef secret.txt -cf DSCN0042.jpg`
 - Extract a message from an image: `steghide extract -sf DSCN0042.jpg -xf secret_extract.txt`
 
+### Forensics
+
+- binwalk: Use binwalk to analyze the file's contents and identify embedded files, hidden data, or appended archives. Run the following command to extract any embedded files `binwalk -e filename`
+- Extract files with binwalk: `binwalk --dd='.*' file.pptm`
+- View EXIF data of a file: `exiftool filename`
+
 ### Directory and File Operations
 
 - Move to the previous directory: `cd -`
