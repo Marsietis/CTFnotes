@@ -1,118 +1,108 @@
-# CTF preparation notes
+# CTF Preparation Notes
 
-## Linux basics
+## Linux Basics
 
-exiftool filename | find exif data
-xdg-open filename| open file
-xdg-open . | open current folder in file explorer
-eog filename| open file (gnome)
+### File Operations
 
-echo -n 0x39 | xxd -r -p | outptu to ascii
+- View EXIF data of a file: `exiftool filename`
+- Open a file: `xdg-open filename`
+- Open the current folder in a file explorer: `xdg-open .`
+- Open a file (GNOME): `eog filename`
+- Convert hexadecimal to ASCII: `echo -n 0x39 | xxd -r -p`
+- Write a secret message to a file: `echo 'Secret message.' > secret.txt`
+- List files in a website using a wordlist: `dirb <target-website> /path/to/wordlist.txt`
 
-echo 'Secret message.' > secret.txt | write message to file
+### Steganography
 
-dirb <target-website> /path/to/wordlist.txt | finding files in a website
+- Hide a message in an image: `steghide embed -ef secret.txt -cf DSCN0042.jpg`
+- Extract a message from an image: `steghide extract -sf DSCN0042.jpg -xf secret_extract.txt`
 
+### Directory and File Operations
 
-steghide embed -ef secret.txt -cf DSCN0042.jpg | hide message in image
-steghide extract -sf DSCN0042.jpg -xf secret_extract.txt | extract message
+- Move to the previous directory: `cd -`
+- List files and directories with detailed information: `ls -la`
+- Display file content: `cat filename`
+- Display readable text from a file: `strings filename`
+- Display usage information: `--help`
+- Create a directory: `mkdir`
+- Create a file: `touch`
+- Get details about a file: `stat filename`
+- View command history with specified word: `history | grep mkdir`
 
-cd - | move to previous dir
-ls -la | detailed info
+### File Removal (rm)
 
-cat | display file content (usage cat filename)
-strings | just like cat but with readable text only (usage strings filename)
+- Remove a file: `rm filename`
+- Remove an empty directory: `rm -d directory`
+- Remove a non-empty directory: `rm -rf`
 
---help | display usage
+### File Copying (cp)
 
-mkdir
-touch
+- Copy a file: `cp file.txt file_backup.txt`
+- Copy a file to a directory: `cp file.txt /tmp`
+- Copy a directory: `cp -R Pictures /opt/backup`
 
-stat filename | details about file
+### File Movement (mv)
 
-history | grep mkdir | history with specified word
+- Move a file to a directory: `mv file.txt /tmp`
+- Rename a file: `mv file.txt file1.txt`
+- Move multiple files to a directory: `mv file.txt file1.txt /tmp`
 
-#### rm
-rm filename | removes file
-rm -d directory | removes empty dir
-rm -rf | removes non empty dir
+## Linux File Permissions
 
-### cp
-cp file.txt file_backup.txt | copy file
-cp file.txt /tmp | copy file to dir
-cp -R Pictures /opt/backup | copy dir
+In Linux, each file is associated with an owner, a group, and permission access rights for three different classes of users: owner (user), group members (group), and everybody else (others). The following permission types apply to each class:
 
-### mv
-mv file.txt /tmp 
-mv file.txt file1.txt | rename file
-mv file.txt file1.txt /tmp | move multiple files 
+- Read permission: 'r'
+- Write permission: 'w'
+- Execute permission: 'x'
 
-In Linux, each file is associated with an owner and a group and assigned with permission access rights for three different classes of users:
+The permissions number of a specific user class is represented by the sum of the values of the permissions for that group:
 
-    The file owner (user) - 'u'
+- 'r' (read) = 4
+- 'w' (write) = 2
+- 'x' (execute) = 1
+- No permissions = 0
 
-    The group members (group) - 'g'
+To set permissions, combine the values for each class and order them as follows:
 
-    Everybody else (others) - 'o'
+`<owner permissions><group permissions><others permissions>`
 
-Three permission types apply to each class:
+For example, to set read, write, and execute permissions for the owner, read and write permissions for the group, and read permissions for everybody else, use the value `764`.
 
-    The read permission - 'r'
+### Changing Permissions (chmod)
 
-    The write permission - 'w'
+- Change permissions of a file: `chmod 600 new_file.txt`
 
-    The execute permission - 'x'
+### Changing Ownership (chown)
 
-### chmod
-chmod 600 new_file.txt
+- Change ownership of a file: `chown username filename.txt`
 
-    'r' (read) = 4
+## Finding Files (find)
 
-    'w' (write) = 2
+- Find files with a partial name: `find /etc -name '*.conf'`
+- Find files with an exact filename: `find /etc -name 'client.conf'`
 
-    'x' (execute) = 1
+The asterisk '*' character can be used in the following ways:
 
-    no permissions = 0
+- `file*`: Search for all files and folders that begin with 'file'
+- `*file`: Search for all files and folders
 
-The permissions number of a specific user class is represented by the sum of the values of the permissions for that group.
+ that end with 'file'
+- `*file*`: Search for all files and folders that have 'file' in any position
 
-    To set read, write and execute permissions to file owner, sum up all values '4+2+1 = 7'.
+## Text Searching (grep)
 
-    To set read and write permissions to file group, sum up read and write values '4+2 = 6'.
+- Search for a word in a file: `grep 'Directory' /etc/rsyslog.conf`
+- Case-insensitive search: `grep -i 'Directory' /etc/*.conf`
+- Search recursively in a directory: `grep -i -R 'Directory' /etc/`
 
-    To set only read permissions to everybody else use value '4'.
+## Downloading Files (wget)
 
-    Now you have to put together all numbers in correct order - first number represents file/folder owner permissions, second number represents group permissions and last number represents permissions for everybody else: '764'
+- Download a specified file and change its save file name: `wget https://filesamples.com/samples/document/txt/sample1.txt -O new_name.txt`
 
-### chown
-chown username filename.txt | change ownership
+## Base64 Encoding and Decoding
 
-### find
-find /etc -name '*.conf' | find file with part of name
-find /etc -name 'client.conf' | find file with exact filename
-
-Asterisk '*' character can be used in following places:
-
-    'file*' - will search for all files and folders which begin with 'file'
-
-    '*file' - will search for all files and folders which end with 'file'
-
-    '*file*' - will search for all files and folder which has 'file' in any place
-
-### grep
-grep 'Directory' /etc/rsyslog.conf | search for word in file
-grep -i 'Directory' /etc/*.conf | -i case insensitive
-grep -i -R 'Directory' /etc/ | serach whole dir
-
-### wget
-wget https://filesamples.com/samples/document/txt/sample1.txt -O new_name.txt | get specified file (-O to change save file name)
-
-## Base64
-
-echo -n 'Text that will be base64 encoded' | base64 | encode to base64
-echo -n 'Text that will be base64 encoded' | base64 | base64  | multiple times
-
-echo -n 'VGV4dCB0aGF0IHdpbGwgYmUgYmFzZTY0IGVuY29kZWQ=' | base64 --decode | decode from base64
-echo -n 'VkdWNGRDQjBhR0YwSUhkcGJHd2dZbVVnWW1GelpUWTBJR1Z1WTI5a1pXUT0K' | base64 -d | base64 -d | can be shortened to -d
-echo -n 'VkdWNGRDQjBhR0YwSUhkcGJHd2dZbVVnWW1GelpUWTBJR1Z1WTI5a1pXUT0K' | base64 --decode | base64 --decode
-
+- Encode text to Base64: `echo -n 'Text that will be base64 encoded' | base64`
+- Multiple rounds of Base64 encoding: `echo -n 'Text that will be base64 encoded' | base64 | base64`
+- Decode Base64 to text: `echo -n 'VGV4dCB0aGF0IHdpbGwgYmUgYmFzZTY0IGVuY29kZWQ=' | base64 --decode`
+- Multiple rounds of Base64 decoding: `echo -n 'VkdWNGRDQjBhR0YwSUhkcGJHd2dZbVVnWW1GelpUWTBJR1Z1WTI5a1pXUT0K' | base64 -d | base64 -d` (can be shortened to `-d`)
+- Decode Base64 to text with multiple rounds: `echo -n 'VkdWNGRDQjBhR0YwSUhkcGJHd2dZbVVnWW1GelpUWTBJR1Z1WTI5a1pXUT0K' | base64 --decode | base64 --decode`
